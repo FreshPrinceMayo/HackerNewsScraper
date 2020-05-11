@@ -15,7 +15,7 @@ namespace HackerNewsScraper.Services
         public void Execute(string api)
         {
             var storyIds = new List<long>();
-
+            
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0/");
@@ -33,9 +33,6 @@ namespace HackerNewsScraper.Services
                 }
 
                 var existingStories = new HackerNewsContext().Story.Select(x => x.StoryId).ToList();
-
-
-                //var numberList = Enumerable.Range(22126484, 23126484).ToList();
 
                 foreach (var storyId in storyIds.Except(existingStories))
                 {

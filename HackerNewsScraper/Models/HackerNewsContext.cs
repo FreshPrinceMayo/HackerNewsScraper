@@ -18,8 +18,12 @@ namespace HackerNewsScraper.Models
         public virtual DbSet<Blog> Blog { get; set; }
         public virtual DbSet<BlogArticle> BlogArticle { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<CommentBlog> CommentBlog { get; set; }
+        public virtual DbSet<CommentText> CommentText { get; set; }
+        public virtual DbSet<CommentUrl> CommentUrl { get; set; }
         public virtual DbSet<Story> Story { get; set; }
         public virtual DbSet<StoryBlog> StoryBlog { get; set; }
+        public virtual DbSet<StoryProcessed> StoryProcessed { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,13 +46,42 @@ namespace HackerNewsScraper.Models
 
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.HasKey(e => new { e.StoryId, e.CommentId });
+                entity.Property(e => e.CommentId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Story)
                     .WithMany(p => p.Comment)
                     .HasForeignKey(d => d.StoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comments_Comments");
+            });
+
+            modelBuilder.Entity<CommentBlog>(entity =>
+            {
+                entity.HasKey(e => new { e.CommentId, e.BlogId });
+            });
+
+            modelBuilder.Entity<CommentText>(entity =>
+            {
+                entity.HasKey(e => e.CommentId);
+
+                entity.Property(e => e.CommentId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Comment)
+                    .WithOne(p => p.CommentText)
+                    .HasForeignKey<CommentText>(d => d.CommentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CommentText_CommentText");
+            });
+
+            modelBuilder.Entity<CommentUrl>(entity =>
+            {
+                entity.Property(e => e.Url).IsRequired();
+
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.CommentUrl)
+                    .HasForeignKey(d => d.CommentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CommentUrl_Comment");
             });
 
             modelBuilder.Entity<Story>(entity =>
@@ -73,6 +106,15 @@ namespace HackerNewsScraper.Models
                     .HasForeignKey(d => d.StoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StoryBlog_Story");
+            });
+
+            modelBuilder.Entity<StoryProcessed>(entity =>
+            {
+                entity.HasOne(d => d.Story)
+                    .WithMany(p => p.StoryProcessed)
+                    .HasForeignKey(d => d.StoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoryProcessed_Story");
             });
 
             OnModelCreatingPartial(modelBuilder);

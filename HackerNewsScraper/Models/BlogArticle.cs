@@ -8,6 +8,7 @@ namespace HackerNewsScraper.Models
         public int BlogArticleId { get; set; }
         public int? BlogId { get; set; }
         public string Url { get; set; }
+        public string Title { get; set; }
 
         public virtual Blog Blog { get; set; }
     }

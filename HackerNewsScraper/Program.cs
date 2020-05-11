@@ -22,7 +22,25 @@ namespace HackerNewsScraper
             //new GetStories().Execute("beststories.json");
             //new GetStories().Execute("newstories.json");
 
-            //new ExtractBlogData().Execute();
+            new ExtractBlogData().Execute();
+            new ExtractBlogData().Execute();
+
+            using (var context = new HackerNewsContext())
+            {
+                var storyIds = context.Story.Where(x => !x.StoryProcessed.Any() && x.StoryBlog.Any()).Select(x => x.StoryId).ToList();
+
+                foreach (var storyId in storyIds)
+                {
+                    Console.WriteLine($"Getting comment from story {storyId}");
+                    new GetComments().Execute(storyId);
+                }
+
+            }
+
+            new ProcessComments().Execute();
+            new ProcessCommentsBlogs().Excute();
+            new ExtractBlogData().Execute();
+
 
             Console.WriteLine("Finishing Processing");
         }
