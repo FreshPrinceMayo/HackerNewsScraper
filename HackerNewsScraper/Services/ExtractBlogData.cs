@@ -15,7 +15,6 @@ namespace HackerNewsScraper.Services
 
                 var stories = context.Story.ToList();
 
-                var blogs = context.Blog.ToList();
                 var storyBlogs = context.StoryBlog.ToList();
                 var blogArticles = context.BlogArticle.ToList();
 
@@ -30,7 +29,7 @@ namespace HackerNewsScraper.Services
                         var uri = new Uri(story.Url);
                         var baseUri = uri.GetLeftPart(UriPartial.Authority);
 
-                        if (!blogs.Any(x => x.BaseUrl == baseUri))
+                        if (!context.Blog.Any(x => x.BaseUrl == baseUri))
                         {
                             context.Blog.Add(new Blog
                             {
@@ -43,7 +42,7 @@ namespace HackerNewsScraper.Services
 
                         if (baseUri != story.Url)
                         {
-                            var selectedBlog = blogs.FirstOrDefault(x => x.BaseUrl == baseUri);
+                            var selectedBlog = context.Blog.FirstOrDefault(x => x.BaseUrl == baseUri);
 
                             if(selectedBlog == null)
                             {
@@ -69,7 +68,7 @@ namespace HackerNewsScraper.Services
                     {
                         var uri = new Uri(story.Url);
                         var baseUri = uri.GetLeftPart(UriPartial.Authority);
-                        var blog = blogs.FirstOrDefault(x => x.BaseUrl == baseUri);
+                        var blog = context.Blog.FirstOrDefault(x => x.BaseUrl == baseUri);
 
                         if (blog != null && !story.StoryBlog.Any(x => x.BlogId == blog.BlogId))
                         {
@@ -80,7 +79,7 @@ namespace HackerNewsScraper.Services
                             });
 
                             context.SaveChanges();
-                            Console.WriteLine($"Added BlogArticle: { baseUri }");
+                            Console.WriteLine($"Added link Blog - Article: { baseUri }");
                         }
 
                     }

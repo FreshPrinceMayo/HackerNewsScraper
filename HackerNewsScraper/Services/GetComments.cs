@@ -15,7 +15,7 @@ namespace HackerNewsScraper.Services
 {
     public class GetComments
     {
-        public void Execute(long storyId )
+        public void Execute(long storyId)
         {
 
             using (var client = new HttpClient())
@@ -51,9 +51,9 @@ namespace HackerNewsScraper.Services
                         throw new Exception($"Can't find story in database {storyId}");
                     }
 
-
                     selectedStory.Descendants = storyapi.descendants;
-                    selectedStory.Descendants = storyapi.score;
+                    selectedStory.Score = storyapi.score;
+                    selectedStory.Time = storyapi.time;
 
                     var currentCommentIds = selectedStory.Comment.Select(x => x.CommentId);
 
@@ -134,17 +134,17 @@ namespace HackerNewsScraper.Services
                                 StoryId = storyId,
                             };
 
-                            newComment.CommentText.Add(new CommentText
+                            newComment.CommentText = new CommentText
                             {
                                 CommentId = hackerNewsItem.id,
                                 Text = hackerNewsItem.text
-                            });
+                            };
 
                             context.Comment.Add(newComment);
                             context.SaveChanges();
                             Console.WriteLine($"Adding Comment");
                         }
-                        else if (existingComments.Any(x => x.CommentId == selectedCommentId && !x.CommentText.Any()))
+                        else if (existingComments.Any(x => x.CommentId == selectedCommentId && x.CommentText == null))
                         {
                             var existingComment = existingComments.FirstOrDefault(x => x.CommentId == selectedCommentId);
 
@@ -153,10 +153,10 @@ namespace HackerNewsScraper.Services
                             existingComment.CreatedBy = hackerNewsItem.by;
 
 
-                            existingComment.CommentText.Add(new CommentText
+                            existingComment.CommentText = new CommentText
                             {
                                 Text = hackerNewsItem.text
-                            });
+                            };
 
                             context.Comment.Update(existingComment);
                             context.SaveChanges();

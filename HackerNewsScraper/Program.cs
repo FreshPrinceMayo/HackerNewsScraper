@@ -22,6 +22,9 @@ namespace HackerNewsScraper
             //new GetStories().Execute("beststories.json");
             //new GetStories().Execute("newstories.json");
 
+            new GetStoriesAlgolia().Execute(" ");
+ 
+
             new ExtractBlogData().Execute();
             new ExtractBlogData().Execute();
 
@@ -40,6 +43,8 @@ namespace HackerNewsScraper
             new ProcessComments().Execute();
             new ProcessCommentsBlogs().Excute();
             new ExtractBlogData().Execute();
+
+            //new GetStoriesAlgolia().Execute("");
 
 
             Console.WriteLine("Finishing Processing");

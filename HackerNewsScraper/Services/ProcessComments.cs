@@ -21,7 +21,7 @@ namespace HackerNewsScraper.Services
 
                 foreach (var comment in comments)
                 {
-                    var commentText = comment.CommentText.FirstOrDefault()?.Text;
+                    var commentText = comment.CommentText?.Text;
 
                     if (commentText != null && (commentText.Contains("href", StringComparison.InvariantCultureIgnoreCase) || commentText.Contains("www.",StringComparison.InvariantCultureIgnoreCase)))
                     {
