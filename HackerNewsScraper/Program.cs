@@ -18,12 +18,12 @@ namespace HackerNewsScraper
         {
             Console.WriteLine("Starting Processing");
 
-            //new GetStories().Execute("topstories.json");
-            //new GetStories().Execute("beststories.json");
-            //new GetStories().Execute("newstories.json");
+            new GetStories().Execute("topstories.json");
+            new GetStories().Execute("beststories.json");
+            new GetStories().Execute("newstories.json");
 
-            new GetStoriesAlgolia().Execute(" ");
- 
+            //new GetStoriesAlgolia().Execute("Author");
+
 
             new ExtractBlogData().Execute();
             new ExtractBlogData().Execute();
@@ -43,8 +43,6 @@ namespace HackerNewsScraper
             new ProcessComments().Execute();
             new ProcessCommentsBlogs().Excute();
             new ExtractBlogData().Execute();
-
-            //new GetStoriesAlgolia().Execute("");
 
 
             Console.WriteLine("Finishing Processing");

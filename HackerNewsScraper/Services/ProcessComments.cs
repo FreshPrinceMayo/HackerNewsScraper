@@ -54,7 +54,7 @@ namespace HackerNewsScraper.Services
                         {
                             var distinctUrls = commentUrls.GroupBy(x => x.Url).Select(x => x.First()).ToList();
 
-                            Console.WriteLine($"Extracted {distinctUrls.Count()} links");
+                            Console.WriteLine($"Extracted {distinctUrls.Count()} link(s)");
                             context.CommentUrl.AddRange(distinctUrls);
                             comment.HasLink = true;
                             context.Comment.Update(comment);
@@ -62,6 +62,9 @@ namespace HackerNewsScraper.Services
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"No link found");
+                            Console.ForegroundColor = ConsoleColor.White;
                             comment.HasLink = false;
                             context.Comment.Update(comment);
                             context.SaveChanges();
@@ -73,6 +76,9 @@ namespace HackerNewsScraper.Services
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"No link found");
+                        Console.ForegroundColor = ConsoleColor.White;
                         comment.HasLink = false;
                         context.Comment.Update(comment);
                         context.SaveChanges();
