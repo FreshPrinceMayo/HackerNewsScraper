@@ -23,6 +23,7 @@ namespace HackerNewsScraper.Models
         public virtual DbSet<CommentUrl> CommentUrl { get; set; }
         public virtual DbSet<Story> Story { get; set; }
         public virtual DbSet<StoryBlog> StoryBlog { get; set; }
+        public virtual DbSet<StoryBlogArticle> StoryBlogArticle { get; set; }
         public virtual DbSet<StoryProcessed> StoryProcessed { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -106,6 +107,24 @@ namespace HackerNewsScraper.Models
                     .HasForeignKey(d => d.StoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StoryBlog_Story");
+            });
+
+            modelBuilder.Entity<StoryBlogArticle>(entity =>
+            {
+                entity.HasKey(e => new { e.StoryId, e.BlogArticleId })
+                    .HasName("PK_StroryBlogArticle");
+
+                entity.HasOne(d => d.BlogArticle)
+                    .WithMany(p => p.StoryBlogArticle)
+                    .HasForeignKey(d => d.BlogArticleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoryBlogArticle_BlogArticle");
+
+                entity.HasOne(d => d.Story)
+                    .WithMany(p => p.StoryBlogArticle)
+                    .HasForeignKey(d => d.StoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StroryBlogArticle_StroryBlogArticle");
             });
 
             modelBuilder.Entity<StoryProcessed>(entity =>

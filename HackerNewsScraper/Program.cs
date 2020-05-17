@@ -18,15 +18,21 @@ namespace HackerNewsScraper
         {
             Console.WriteLine("Starting Processing");
 
+
+         
             new GetStories().Execute("topstories.json");
             new GetStories().Execute("beststories.json");
             new GetStories().Execute("newstories.json");
 
-            //new GetStoriesAlgolia().Execute("Author");
+            //new GetStoriesAlgolia().Execute("opinion",true);
+            //new GetStoriesAlgolia().Execute("thoughts", true);
 
 
             new ExtractBlogData().Execute();
             new ExtractBlogData().Execute();
+            new LinkStoryToBlogArticle().Execute();
+
+
 
             using (var context = new HackerNewsContext())
             {
@@ -40,9 +46,11 @@ namespace HackerNewsScraper
 
             }
 
+
             new ProcessComments().Execute();
             new ProcessCommentsBlogs().Excute();
             new ExtractBlogData().Execute();
+
 
 
             Console.WriteLine("Finishing Processing");

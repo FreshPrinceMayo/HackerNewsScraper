@@ -14,7 +14,7 @@ namespace HackerNewsScraper.Services
     {
         public void Execute(string api)
         {
-            var storyIds = new List<long>();
+            var storyIds = new List<int>();
             
             using (var client = new HttpClient())
             {
@@ -25,7 +25,7 @@ namespace HackerNewsScraper.Services
                 HttpResponseMessage response = client.GetAsync(api).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    storyIds = JsonSerializer.Deserialize<List<long>>(response.Content.ReadAsStringAsync().Result);
+                    storyIds = JsonSerializer.Deserialize<List<int>>(response.Content.ReadAsStringAsync().Result);
                 }
                 else
                 {

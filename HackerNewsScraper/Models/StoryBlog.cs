@@ -5,7 +5,7 @@ namespace HackerNewsScraper.Models
 {
     public partial class StoryBlog
     {
-        public long StoryId { get; set; }
+        public int StoryId { get; set; }
         public int BlogId { get; set; }
 
         public virtual Blog Blog { get; set; }

@@ -12,13 +12,13 @@ namespace HackerNewsScraper.Services
 {
     public class GetStoriesAlgolia
     {
-        public void Execute(string query)
+        public void Execute(string query, bool latest = false)
         {
-
-            var api = $"search?query={query}&tags=story";
+            var searchFilter = latest ? "search_by_date" : "search";
+            var api = $"{searchFilter}?query={query}&tags=story";
 
             var currentDateTime = DateTime.Now;
-            var storyIds = new List<long>();
+            var storyIds = new List<int>();
             HttpResponseMessage response = new HttpResponseMessage();
 
             using (var context = new HackerNewsContext())
@@ -41,7 +41,7 @@ namespace HackerNewsScraper.Services
 
                         foreach (var hit in result.hits)
                         {
-                            if (storyIds.Any(x => x == Convert.ToInt64(hit.objectID)))
+                            if (storyIds.Any(x => x == Convert.ToInt32(hit.objectID)))
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.WriteLine($"Story added already {hit.title}");
@@ -52,7 +52,7 @@ namespace HackerNewsScraper.Services
 
                             var newStory = new Story
                             {
-                                StoryId = Convert.ToInt64(hit.objectID),
+                                StoryId = Convert.ToInt32(hit.objectID),
                                 Title = string.IsNullOrWhiteSpace(hit.title) ? null : hit.title,
                                 CreatedBy = hit.author,
                                 Type = "story",
@@ -91,7 +91,7 @@ namespace HackerNewsScraper.Services
 
                             foreach (var hit in result.hits)
                             {
-                                if (storyIds.Any(x => x == Convert.ToInt64(hit.objectID)))
+                                if (storyIds.Any(x => x == Convert.ToInt32(hit.objectID)))
                                 {
                                     Console.ForegroundColor = ConsoleColor.Yellow;
                                     Console.WriteLine($"Story added already {hit.title}");
@@ -102,7 +102,7 @@ namespace HackerNewsScraper.Services
 
                                 var newStory = new Story
                                 {
-                                    StoryId = Convert.ToInt64(hit.objectID),
+                                    StoryId = Convert.ToInt32(hit.objectID),
                                     Title = string.IsNullOrWhiteSpace(hit.title) ? null : hit.title,
                                     CreatedBy = hit.author,
                                     Type = "story",

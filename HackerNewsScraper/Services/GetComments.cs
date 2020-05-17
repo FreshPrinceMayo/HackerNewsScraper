@@ -15,7 +15,7 @@ namespace HackerNewsScraper.Services
 {
     public class GetComments
     {
-        public void Execute(long storyId)
+        public void Execute(int storyId)
         {
 
             using (var client = new HttpClient())
@@ -57,7 +57,7 @@ namespace HackerNewsScraper.Services
 
                     var currentCommentIds = selectedStory.Comment.Select(x => x.CommentId);
 
-                    var newCommentIds = new List<long>();
+                    var newCommentIds = new List<int>();
                         
                     if(storyapi.kids != null)
                     {
@@ -82,7 +82,7 @@ namespace HackerNewsScraper.Services
                     context.Story.Update(selectedStory);
                     context.SaveChanges();
 
-                    var storyCommentIds = new List<long>();
+                    var storyCommentIds = new List<int>();
 
                     var existingComments = context.Comment.Include(x => x.CommentText).Where(x => x.StoryId == storyId);
 

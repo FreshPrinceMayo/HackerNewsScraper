@@ -13,6 +13,9 @@ namespace HackerNewsScraper.Models
 
         public int BlogId { get; set; }
         public string BaseUrl { get; set; }
+        public bool? IsCompany { get; set; }
+        public string AuthorName { get; set; }
+        public string Twitter { get; set; }
 
         public virtual ICollection<BlogArticle> BlogArticle { get; set; }
         public virtual ICollection<StoryBlog> StoryBlog { get; set; }

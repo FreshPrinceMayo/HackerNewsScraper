@@ -10,10 +10,10 @@ namespace HackerNewsScraper.Models
             CommentUrl = new HashSet<CommentUrl>();
         }
 
-        public long CommentId { get; set; }
-        public long StoryId { get; set; }
+        public int CommentId { get; set; }
+        public int StoryId { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public long? ParentCommentId { get; set; }
+        public int? ParentCommentId { get; set; }
         public long? SubmittedDate { get; set; }
         public string CreatedBy { get; set; }
         public bool? HasLink { get; set; }

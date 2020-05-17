@@ -9,10 +9,11 @@ namespace HackerNewsScraper.Models
         {
             Comment = new HashSet<Comment>();
             StoryBlog = new HashSet<StoryBlog>();
+            StoryBlogArticle = new HashSet<StoryBlogArticle>();
             StoryProcessed = new HashSet<StoryProcessed>();
         }
 
-        public long StoryId { get; set; }
+        public int StoryId { get; set; }
         public string Title { get; set; }
         public string CreatedBy { get; set; }
         public string Type { get; set; }
@@ -24,6 +25,7 @@ namespace HackerNewsScraper.Models
 
         public virtual ICollection<Comment> Comment { get; set; }
         public virtual ICollection<StoryBlog> StoryBlog { get; set; }
+        public virtual ICollection<StoryBlogArticle> StoryBlogArticle { get; set; }
         public virtual ICollection<StoryProcessed> StoryProcessed { get; set; }
     }
 }
